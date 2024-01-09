@@ -2,19 +2,21 @@ package com.kmusau.dockercontainers.controller;
 
 import com.kmusau.dockercontainers.models.UsersEntity;
 import com.kmusau.dockercontainers.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.kmusau.dockercontainers.services.UsersService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class Controller {
+    private final UsersRepository usersRepository;
+    private final UsersService usersService;
 
-    @Autowired
-    UsersRepository usersRepository;
+    public Controller(UsersRepository usersRepository, UsersService usersService) {
+        this.usersRepository = usersRepository;
+        this.usersService = usersService;
+    }
+
 
     @GetMapping("/")
     public String welcome() {
@@ -28,6 +30,16 @@ public class Controller {
 
     @PostMapping("/create/user")
     public UsersEntity createUser(@RequestBody UsersEntity user) {
-        return usersRepository.save(user);
+        return usersService.createUser(user);
+    }
+
+    @PutMapping("/edit/user/{userId}")
+    public UsersEntity updateUser(@RequestBody UsersEntity users, @PathVariable Integer userId) {
+        return usersService.updateUser(users, userId);
+    }
+
+    @DeleteMapping("/delete/user/{userId}")
+    public String deleteUser(@PathVariable Integer userId) {
+        return usersService.deleteUser(userId);
     }
 }
