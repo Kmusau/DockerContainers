@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +19,6 @@ public class UsersEntity {
     private String firstName;
     private String lastName;
     private int age;
+    private Date dateCreated;
+    private Date dateModified;
 }
